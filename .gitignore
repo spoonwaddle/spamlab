@@ -1,0 +1,4 @@
+.vagrant/*
+*.swp
+*/pkg/*
+*/src/*

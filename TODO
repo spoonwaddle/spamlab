@@ -1,0 +1,7 @@
+add optional priors field to SpamClassifier
+
+classifier server (dump/restore?)
+
+Text -> BagOfWords Map[string]int
+
+fix add-one smoothing (add one per unique unseen word to both that word's count and the denominators count)
