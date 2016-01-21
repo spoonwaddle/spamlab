@@ -19,6 +19,8 @@ const (
 	WORD_COUNT_SUFFIX = "#WORDS"
 )
 
+const ENRON_DATASET_BASE_URL = "http://www.aueb.gr/users/ion/data/enron-spam/preprocessed/enron"
+
 var LABEL2NAMESPACE = map[SpamLabel]string{
 	SPAM: "spam:",
 	HAM:  "ham:",

@@ -21,11 +21,13 @@ func addToCorpus(glob string, label SpamLabel, corpus chan TrainingSample) {
 	}
 }
 
+func addDocumentToCorpus(doc string, label SpamLabel, corpus chan TrainingSample) {
+	corpus <- TrainingSample{label: label, document: doc}
+}
+
 func TrainFromFiles(classifier SpamClassifier, spamGlob string, hamGlob string) {
 	corpus := make(chan TrainingSample)
-	done := make(chan bool)
-	go classifier.OnlineTrain(corpus, done)
+	classifier.StreamTrain(corpus)
 	addToCorpus(spamGlob, SPAM, corpus)
 	addToCorpus(hamGlob, HAM, corpus)
-	done <- true
 }

@@ -5,16 +5,13 @@ import (
 )
 
 func main() {
+	corpus := EnronSpamCorpus(1, 2, 3, 4, 5, 6)
 	classifier, _ := SpamClassifierFromRedisUrl("127.0.0.1:6379")
-	fmt.Printf("Clearing model...")
+	fmt.Println("Clearing model...")
 	classifier.dist.ResetCounts()
 	fmt.Println("Done.")
-	fmt.Printf("Training...")
-	TrainFromFiles(
-		classifier,
-		"/home/vagrant/training_data/spam/*",
-		"/home/vagrant/training_data/ham/*",
-	)
+	fmt.Println("Training...")
+	classifier.StreamTrain(corpus)
 	fmt.Println("Done.")
 	fmt.Printf("Listening...")
 	fmt.Println(listen(classifier, ":80"))

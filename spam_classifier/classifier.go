@@ -42,13 +42,8 @@ func (classifier SpamClassifier) Classify(document string) (SpamLabel, error) {
 	return label, nil
 }
 
-func (classifier SpamClassifier) OnlineTrain(samples chan TrainingSample, done chan bool) {
-	for {
-		select {
-		case <-done:
-			return
-		case sample := <-samples:
-			classifier.Train(sample)
-		}
+func (classifier SpamClassifier) StreamTrain(samples chan TrainingSample) {
+	for sample := range samples {
+		classifier.Train(sample)
 	}
 }
