@@ -2,4 +2,4 @@
 *.swp
 */pkg/*
 */src/*
-/spam_classifier
+spam_classifier/spam_classifier
