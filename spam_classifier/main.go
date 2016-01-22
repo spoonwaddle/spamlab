@@ -14,6 +14,22 @@ var subcommands = map[string]func(){
 	"train":    TrainCommand,
 	"reset":    ResetCommand,
 	"classify": ClassifyCommand,
+	"server":   ServerCommand,
+}
+
+func ServerCommand() {
+	var redisUrl, serverUrl string
+	serverFlags := flag.NewFlagSet("server", flag.ExitOnError)
+	serverFlags.StringVar(&redisUrl, "redis", os.Getenv("REDIS_URL"), "URL of Redis instance being used to store model.")
+	serverFlags.StringVar(&serverUrl, "addr", "0.0.0.0:8080", "Address to host spam classifier server from.")
+	serverFlags.Parse(argsAfterSubcommand())
+	classifier := parseClassifier(redisUrl)
+	fmt.Println("Listening on", serverUrl)
+	err := listen(classifier, serverUrl)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
 
 func ResetCommand() {

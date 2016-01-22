@@ -27,3 +27,5 @@ install_redis ()
 install_git
 install_golang_and_go_deps
 install_redis
+
+echo "cd /vagrant" >> $VAGRANT_PROFILE

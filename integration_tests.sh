@@ -19,6 +19,7 @@ prepare_redis () {
     fi
     echo "Clearing..."
     redis-cli "FLUSHALL"  # clean redis out for tests
+    echo
 }
 
 generate_training_data () {
@@ -29,17 +30,20 @@ generate_training_data () {
         echo "cat dog cat dog cat dog" > $TRAINING_DIR/doc$i.spam 
         echo "fish bird fish bird fish bird" > $TRAINING_DIR/doc$i.ham
     done
+    echo
 }
 
 build_classifier () {
     echo "Building spam_classifier from source..."
     cd $SOURCE_DIR
     go build
+    echo
 }
 
 train_classifier () {
     echo "Training classifier on data in $TRAINING_DIR..."
     $SOURCE_DIR/spam_classifier train -redis=$TEST_REDIS -spam=$TRAINING_DIR/*.spam -ham=$TRAINING_DIR/*.ham
+    echo
 }
 
 test_classifier () {
@@ -50,6 +54,7 @@ test_classifier () {
         echo "GREAT SUCCESS!!!"
     else
         echo "Something has gone horribly wrong!"
+        exit 1
     fi
     
     echo "Testing ham sample..."
@@ -60,16 +65,24 @@ test_classifier () {
         echo "GREAT SUCCESS!!!"
     else
         echo "Something has gone horribly wrong!"
+        exit 1
     fi
+    echo
 }
 
 cleanup () {
+    echo "Cleaning up..."
     echo "Deleting training data..."
     rm -rf $TRAINING_DIR
     echo "Stopping test redis instance..."
     redis-cli -p $REDIS_PORT shutdown
-    
+    echo
 }
+
+echo "***************"
+echo "TESTING SPAMLAB"
+echo "***************"
+echo
 
 prepare_redis
 generate_training_data
