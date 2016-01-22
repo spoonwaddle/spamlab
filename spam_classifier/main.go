@@ -17,7 +17,11 @@ var subcommands = map[string]func(){
 }
 
 func ResetCommand() {
-	classifier := parseClassifier(argsAfterSubcommand())
+	var redisUrl string
+	resetFlags := flag.NewFlagSet("reset", flag.ExitOnError)
+	resetFlags.StringVar(&redisUrl, "redis", os.Getenv("REDIS_URL"), "URL of Redis instance being used to store model.")
+	resetFlags.Parse(argsAfterSubcommand())
+	classifier := parseClassifier(redisUrl)
 	err := classifier.Reset()
 	if err != nil {
 		fmt.Println("Bad things happened during reset:", err)
@@ -28,8 +32,11 @@ func ResetCommand() {
 }
 
 func ClassifyCommand() {
-	args := argsAfterSubcommand()
-	classifier := parseClassifier(args)
+	var redisUrl string
+	classifyFlags := flag.NewFlagSet("classify", flag.ExitOnError)
+	classifyFlags.StringVar(&redisUrl, "redis", os.Getenv("REDIS_URL"), "URL of Redis instance being used to store model.")
+	classifyFlags.Parse(argsAfterSubcommand())
+	classifier := parseClassifier(redisUrl)
 	bytes, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
 		fmt.Println(err)
@@ -72,9 +79,11 @@ func TrainCommand() {
 	var indices corpusIndices
 	var hamGlob string
 	var spamGlob string
+	var redisUrl string
 
 	trainingFlags.StringVar(&spamGlob, "spam", "", "Glob to match training files labelled spam.")
 	trainingFlags.StringVar(&hamGlob, "ham", "", "Glob to match training files labelled ham.")
+	trainingFlags.StringVar(&redisUrl, "redis", os.Getenv("REDIS_URL"), "URL of Redis instance being used to store model.")
 	trainingFlags.Var(&indices, "enron", "comma-separated list of Enron Spam Dataset indices in range [1-6]")
 	trainingFlags.Parse(argsAfterSubcommand())
 
@@ -108,7 +117,7 @@ func TrainCommand() {
 		os.Exit(1)
 	}
 	corpus := merge(corpora)
-	classifier := parseClassifier(argsAfterSubcommand())
+	classifier := parseClassifier(redisUrl)
 	classifier.StreamTrain(corpus)
 }
 
@@ -134,11 +143,7 @@ func parseSubcommand() func() {
 	return subcommand
 }
 
-func parseClassifier(osArgs []string) SpamClassifier {
-	var redisUrl string
-	classifierConfig := flag.NewFlagSet("classifierConfig", flag.ContinueOnError)
-	classifierConfig.StringVar(&redisUrl, "redis", os.Getenv("REDIS_URL"), "URL of Redis instance being used to store model.")
-	classifierConfig.Parse(osArgs)
+func parseClassifier(redisUrl string) SpamClassifier {
 	if redisUrl == "" {
 		fmt.Println("Must provide redis url via either `redis` flag or REDIS_URL environment variable!")
 		os.Exit(1)
