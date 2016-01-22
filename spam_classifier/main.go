@@ -87,6 +87,8 @@ func TrainCommand() {
 	trainingFlags.Var(&indices, "enron", "comma-separated list of Enron Spam Dataset indices in range [1-6]")
 	trainingFlags.Parse(argsAfterSubcommand())
 
+	classifier := parseClassifier(redisUrl)
+
 	var corpora []chan TrainingSample
 	if hamGlob != "" {
 		c, err := GlobCorpus(HAM, hamGlob)
@@ -117,7 +119,6 @@ func TrainCommand() {
 		os.Exit(1)
 	}
 	corpus := merge(corpora)
-	classifier := parseClassifier(redisUrl)
 	classifier.StreamTrain(corpus)
 }
 
