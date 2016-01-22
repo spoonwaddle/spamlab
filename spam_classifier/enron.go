@@ -87,18 +87,18 @@ func merge(corpora []chan TrainingSample) chan TrainingSample {
 	return out
 }
 
-func EnronSpamCorpus(indices ...int) chan TrainingSample {
+func EnronSpamCorpus(indices ...int) (chan TrainingSample, error) {
 	var corpora []chan TrainingSample
 	for _, i := range indices {
 		url, err := buildEnronTarballUrl(i)
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
 		tarball, err := readTarballFromUrl(url)
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
 		corpora = append(corpora, corpusFromTar(tarball))
 	}
-	return merge(corpora)
+	return merge(corpora), nil
 }

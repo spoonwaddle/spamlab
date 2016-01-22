@@ -47,3 +47,7 @@ func (classifier SpamClassifier) StreamTrain(samples chan TrainingSample) {
 		classifier.Train(sample)
 	}
 }
+
+func (classifier SpamClassifier) Reset() error {
+	return classifier.dist.ResetCounts()
+}
