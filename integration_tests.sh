@@ -4,6 +4,11 @@ set -e
 
 clear
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
 SOURCE_DIR=/vagrant/spam_classifier
 TRAINING_DIR=/tmp/training_data
 REDIS_PORT=5656
@@ -51,20 +56,20 @@ test_classifier () {
     SPAM_RESULT=`echo "cat dog dog dog cat" | $SOURCE_DIR/spam_classifier classify -redis=$TEST_REDIS`
     echo "Result: $SPAM_RESULT -- Expected: SPAM"
     if [ "$SPAM_RESULT" = "SPAM" ] ; then
-        echo "GREAT SUCCESS!!!"
+        printOK "PASS"
     else
-        echo "Something has gone horribly wrong!"
+        printSAD "FAIL"
         exit 1
     fi
-    
+    echo
     echo "Testing ham sample..."
     HAM_RESULT=`echo "fish fish fish bird" | $SOURCE_DIR/spam_classifier classify -redis=$TEST_REDIS`
     echo "Result: $HAM_RESULT -- Expected: HAM"
     if [ "$HAM_RESULT" = "HAM" ] ;
     then
-        echo "GREAT SUCCESS!!!"
+        printOK "PASS"
     else
-        echo "Something has gone horribly wrong!"
+        printSAD "FAIL"
         exit 1
     fi
     echo
@@ -79,10 +84,15 @@ cleanup () {
     echo
 }
 
-echo "***************"
-echo "TESTING SPAMLAB"
-echo "***************"
-echo
+printOK () {
+    printf "${GREEN}$1${NC}\n"
+}
+
+printSAD() {
+    printf "${RED}$1${NC}\n"
+}
+
+printf "${YELLOW}***************\nTESTING SPAMLAB\n***************${NC}\n\n"
 
 prepare_redis
 generate_training_data
