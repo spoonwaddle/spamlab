@@ -67,7 +67,7 @@ Starts an HTTP server to classify texts. Queries are sent via a GET request to t
 
 Example:
 
-`./spam_classifier server -addr=0.0.0.0:8080
+`spam_classifier server -addr=0.0.0.0:8080`
 
 To test the server out, you can `curl` from it in another window...
 
