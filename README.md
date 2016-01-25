@@ -64,9 +64,9 @@ Example:
 
 ### server
 
-`server` flags:
--addr="0.0.0.0:8080": Address to host spam classifier server from.
--redis="127.0.0.1:6379": URL of Redis instance being used to store model.
+`server` flags:  
+-addr="0.0.0.0:8080": Address to host spam classifier server from.    
+-redis="127.0.0.1:6379": URL of Redis instance being used to store model.   
 
 Starts an HTTP server to classify texts. Queries are sent via a GET request to the `/classify` endpoint. The text to classify is set with the `text` query parameter in the URL.
 
