@@ -1,3 +1,5 @@
+# SpamLab
+
 ## Synopsis
 
 SpamLab is a system for spam classification written in Go. Its core task is to label input text as either "spam" or "ham" (which is apparently generally accepted by academic types who spend time thinking about spam classifiers to be the opposite of "spam"). SpamLab implements a Naive Bayes classifier and uses Redis to store the underlying statistical model with which it draws its conclusions.
