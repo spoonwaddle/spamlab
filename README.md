@@ -49,7 +49,10 @@ Classifies a string from stdin. Result written to stdout as either "SPAM" or "HA
 
 Example:
 
-`echo "pharmaceuticals sure are great!" | ./spam_classifier classify`
+```
+echo "pharmaceuticals sure are great!" | ./spam_classifier classify
+SPAM
+```
 
 ### reset
 
@@ -57,7 +60,7 @@ Drops all keys from the Redis instance living at `-redis` or `$REDIS_URL`. This 
 
 Example:
 
-`spam_classifier reset -redis=127.0.0.1:5555
+`./spam_classifier reset -redis=127.0.0.1:5555
 
 ### server
 
