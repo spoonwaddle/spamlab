@@ -12,7 +12,7 @@ The easiest way to start playing with SpamLab is with Vagrant (I'm using v1.8.1)
 
 ## QuickStart
 
-These instructions will take you from cloning the repository, to training your model with a decent amount of initial data to bootstrap the classifier.
+These instructions will take you from cloning the repository to training your model with a decent amount of initial data to bootstrap the classifier.
 
 ```
 git clone git@github.com:vroomwaddle/spamlab.git
@@ -22,7 +22,7 @@ vagrant ssh
 ```
 In the virtual machine...
 ```
-./integration_tests                   # make sure everything's running
+./integration_tests                   # make sure system works as a whole
 cd spam_classifier/
 go test                               # make sure unit tests pass
 ./spam_classifier train -enron=1,2,3  # train with some initial data from enron spam dataset
