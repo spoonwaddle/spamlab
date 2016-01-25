@@ -22,10 +22,10 @@ vagrant ssh
 ```
 In the virtual machine...
 ```
-./integration_tests  # make sure everything's running
+./integration_tests                   # make sure everything's running
 cd spam_classifier/
-go test              # make sure unit tests pass
-./spam_classifier train -enron=1,2,3
+go test                               # make sure unit tests pass
+./spam_classifier train -enron=1,2,3  # train with some initial data from enron spam dataset
 ```
 
 ## Tests
