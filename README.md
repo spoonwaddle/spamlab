@@ -26,7 +26,7 @@ The `spam_classifier` binary has four subcommands: *train*, *classify*, *server*
 
 ### train
 
-`spam_classifier train` flags:  
+`train` flags:  
 -enron=: comma-separated list of Enron Spam Dataset indices in range [1-6]  
 -ham="": Glob to match training files labelled ham.  
 -redis="127.0.0.1:6379": URL of Redis instance being used to store model.  
@@ -64,7 +64,7 @@ Example:
 
 ### server
 
-`spam_classifier server` flags:
+`server` flags:
 -addr="0.0.0.0:8080": Address to host spam classifier server from.
 -redis="127.0.0.1:6379": URL of Redis instance being used to store model.
 
