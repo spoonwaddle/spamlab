@@ -10,6 +10,24 @@ SpamLab exposes a command-line interface through the `spam_classifier` binary, w
 
 The easiest way to start playing with SpamLab is with Vagrant (I'm using v1.8.1). A simple `vagrant up` should install Golang, Redis, and a couple Go dependencies for you and start up the Redis server. Even without Vagrant, setup is pretty simple. You simply clone this repo, install the dependencies (check out bootstrap.sh), and run `go build` in the `spam_classifier/` directory.
 
+## QuickStart
+
+These instructions will take you from cloning the repository, to training your model with a decent amount of initial data to bootstrap the classifier.
+
+```
+git clone git@github.com:vroomwaddle/spamlab.git
+cd spamlab/
+vagrant up
+vagrant ssh
+```
+In the virtual machine...
+```
+./integration_tests  # make sure everything's running
+cd spam_classifier/
+go test              # make sure unit tests pass
+./spam_classifier train -enron=1,2,3
+```
+
 ## Tests
 
 To test the system as a whole, you can run `integration_tests.sh`. This script will create a new Redis server, train a classifier on dummy data, classify a couple of documents to make sure it gets the correct results, and then clean up after itself.
