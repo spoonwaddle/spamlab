@@ -39,7 +39,7 @@ Example:
 The `-ham` and `-spam` flags allow you to specify globs corresponding to groups of files containing either spam or ham data depending on the flag. The files themselves will be treated as plaintext for training.
 
 Example:
-`./spam_classifier train -spam=/tmp/*.spam -ham=/tmp/*.ham` 
+`spam_classifier train -spam=/tmp/*.spam -ham=/tmp/*.ham` 
 
 ### classify
 
@@ -55,11 +55,11 @@ Drops all keys from the Redis instance living at `-redis` or `$REDIS_URL`. This 
 
 Example:
 
-`./spam_classifier reset -redis=127.0.0.1:5555
+`spam_classifier reset -redis=127.0.0.1:5555
 
 ### server
 
-`./spam_classifier server` flags:
+`spam_classifier server` flags:
 -addr="0.0.0.0:8080": Address to host spam classifier server from.
 -redis="127.0.0.1:6379": URL of Redis instance being used to store model.
 
